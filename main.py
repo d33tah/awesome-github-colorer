@@ -35,7 +35,7 @@ for n, link in enumerate(links):
     sys.stderr.write('%d/%d\n' % (n + 1, len(links)))
     url = link.split('(')[1][:-1]
     tree = html.fromstring(requests.get(url).text)
-    stars_xpath = '//a [contains(@class, "social-count")]'
+    stars_xpath = '//a [contains(@class, "social-count") and contains(@href, "/stargazers")]'
     try:
         stars_text = tree.xpath(stars_xpath)[0].text
     except IndexError:
