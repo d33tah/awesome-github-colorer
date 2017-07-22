@@ -19,7 +19,7 @@ def stars_to_emoji(stars):
     elif stars < 500:
         return ':yellow_heart:'
     elif stars < 1000:
-        return ':red_heart:'
+        return ':heart:'
     elif stars < 2000:
         return ':sparkling_heart:'
     elif stars < 3000:
