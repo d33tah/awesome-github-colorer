@@ -37,7 +37,7 @@ for n, link in enumerate(links):
     tree = html.fromstring(requests.get(url).text)
     stars_text = tree.xpath('//a [contains(@class, "social-count")]')[0].text
     stars = int(stars_text.replace(',', ''))
-    s = s.replace(link, '%slink' % stars_to_emoji(stars))
+    s = s.replace(link, '%s%s' % (stars_to_emoji(stars), link))
     if n > 3:
         break
 sys.stdout.write(s)
