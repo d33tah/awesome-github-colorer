@@ -29,15 +29,18 @@ def stars_to_emoji(stars):
     else:
         return ':revolving_hearts:'
 
-s = open('README.md').read()
+s = open(sys.argv[1]).read()
 links = set(re.findall('\[[^]]+\]\(https://github.com/[^/]+/[^\)]+\)', s))
 for n, link in enumerate(links):
-    sys.stderr.write('%d/%d\n' % (n, len(links)))
+    sys.stderr.write('%d/%d\n' % (n + 1, len(links)))
     url = link.split('(')[1][:-1]
     tree = html.fromstring(requests.get(url).text)
-    stars_text = tree.xpath('//a [contains(@class, "social-count")]')[0].text
+    stars_xpath = '//a [contains(@class, "social-count")]'
+    try:
+        stars_text = tree.xpath(stars_xpath)[0].text
+    except IndexError:
+        sys.stderr.write('IndexError on %s\n' % url)
+        continue
     stars = int(stars_text.replace(',', ''))
     s = s.replace(link, '%s%s' % (stars_to_emoji(stars), link))
-    if n > 3:
-        break
 sys.stdout.write(s)
